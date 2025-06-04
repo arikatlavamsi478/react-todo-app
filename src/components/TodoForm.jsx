@@ -1,15 +1,46 @@
 import React, { useState } from 'react';
 
+/**
+ * TodoForm component allows user to input a new todo item with:
+ * - title (required)
+ * - priority (Low/Medium/High)
+ * - due date (optional, must be today or future)
+ *
+ * On submission, a new todo object is passed to `addTodo` with:
+ * - title, priority, createdAt, dueDate
+ */
+
 function TodoForm({ addTodo }) {
   const [title, setTitle] = useState('');
   const [priority, setPriority] = useState('Medium');
+  const [dueDate, setDueDate] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (title.trim() === '') return;
-    addTodo({ title: title.trim(), priority });
+    const trimmedTitle = title.trim();
+    if (trimmedTitle === '') return;
+
+    if (dueDate) {
+      const due = new Date(dueDate);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (due < today) {
+        alert("Due date cannot be in the past.");
+        return;
+      }
+    }
+
+    addTodo({ 
+      title: trimmedTitle, 
+      priority, 
+      dueDate: dueDate ? new Date(dueDate).toISOString() : null,
+      createdAt: new Date().toISOString()
+    });
+
+    // Reset form state
     setTitle('');
     setPriority('Medium');
+    setDueDate('');
   };
 
   return (
@@ -20,12 +51,14 @@ function TodoForm({ addTodo }) {
       gap: '10px',
       marginTop: '20px',
       flexWrap: 'wrap',
-    }}>
+    }} aria-label="todo form">
       <input
         type="text"
         placeholder="Add todo..."
         value={title}
         onChange={e => setTitle(e.target.value)}
+        aria-label="title"
+        required
         style={{
           padding: '8px 12px',
           fontSize: '1rem',
@@ -38,6 +71,7 @@ function TodoForm({ addTodo }) {
       <select
         value={priority}
         onChange={e => setPriority(e.target.value)}
+        aria-label="priority"
         style={{
           padding: '8px 12px',
           fontSize: '1rem',
@@ -51,18 +85,33 @@ function TodoForm({ addTodo }) {
         <option value="Medium">Medium</option>
         <option value="High">High</option>
       </select>
-      <button type="submit" style={{
-        padding: '8px 20px',
-        fontSize: '1rem',
-        borderRadius: '4px',
-        border: 'none',
-        backgroundColor: '#007bff',
-        color: 'white',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s ease',
-      }}
-      onMouseEnter={e => e.currentTarget.style.backgroundColor = '#0056b3'}
-      onMouseLeave={e => e.currentTarget.style.backgroundColor = '#007bff'}
+      <input
+        type="date"
+        value={dueDate}
+        onChange={e => setDueDate(e.target.value)}
+        aria-label="due date"
+        style={{
+          padding: '8px 12px',
+          fontSize: '1rem',
+          borderRadius: '4px',
+          border: '1px solid #ccc'
+        }}
+      />
+      <button
+        type="submit"
+        aria-label="add todo"
+        style={{
+          padding: '8px 20px',
+          fontSize: '1rem',
+          borderRadius: '4px',
+          border: 'none',
+          backgroundColor: '#007bff',
+          color: 'white',
+          cursor: 'pointer',
+          transition: 'background-color 0.3s ease',
+        }}
+        onMouseEnter={e => e.currentTarget.style.backgroundColor = '#0056b3'}
+        onMouseLeave={e => e.currentTarget.style.backgroundColor = '#007bff'}
       >
         Add
       </button>

@@ -1,57 +1,39 @@
 import React from 'react';
+import TodoItem from './TodoItem';
 
-function TodoList({ todos, toggleTodo, deleteTodo }) {
-    if (todos.length === 0) {
-      return <p style={{ textAlign: 'center', marginTop: '20px' }}>No todos available</p>;
-    }
-  
+/**
+ * TodoList component renders a list of todos using TodoItem.
+ * Props:
+ * - todos: array of todo objects
+ * - toggleTodo: function to toggle a todo's completed status
+ * - deleteTodo: function to delete a todo
+ * - editTodo: optional function to edit a todo
+ * - showCreatedAt: boolean to show creation date (currently unused)
+ */
+
+function TodoList({ todos, toggleTodo, deleteTodo, editTodo, showCreatedAt }) {
+  if (todos.length === 0) {
     return (
-      <ul style={{ listStyleType: 'none', padding: 0 }}>
-        {todos.map(todo => (
-          <li
-            key={todo.id}
-            style={{
-              textDecoration: todo.completed ? 'line-through' : 'none',
-              borderLeft: `4px solid ${
-                todo.priority === 'High' ? 'red' : todo.priority === 'Medium' ? 'orange' : 'green'
-              }`,
-              padding: '8px',
-              margin: '6px 0',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              cursor: 'default',
-            }}
-          >
-        
-            <span
-              onClick={() => toggleTodo(todo.id)}
-              style={{ flexGrow: 1, cursor: 'pointer', userSelect: 'none' }}
-            >
-              {todo.title}
-            </span>
-  
-            <button
-              onClick={() => deleteTodo(todo.id)}
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                color: 'red',
-                cursor: 'pointer',
-                fontWeight: 'bold',
-                fontSize: '1.2rem',
-                marginLeft: '10px',
-                userSelect: 'none',
-              }}
-              aria-label={`Delete todo ${todo.title}`}
-              title="Delete todo"
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+      <p style={{ textAlign: 'center', marginTop: '20px' }}>
+        No todos available
+      </p>
     );
-  }  
+  }
+
+  return (
+    <ul className="todo-list" style={{ listStyleType: 'none', padding: 0 }}>
+      {todos.map((todo) => (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          toggleTodo={toggleTodo}
+          deleteTodo={deleteTodo}
+          editTodo={editTodo}
+          showCreatedAt={showCreatedAt}
+        />
+      ))}
+    </ul>
+  );
+}
 
 export default TodoList;

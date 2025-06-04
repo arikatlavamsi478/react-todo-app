@@ -7,20 +7,20 @@ import TodoStats from './components/TodoStats';
 const initialTodos = [
   {
     id: 1,
-    title: "Learn React Hooks",
+    title: 'Learn React Hooks',
     completed: false,
-    priority: "High",
+    priority: 'High',
     createdAt: new Date().toISOString(),
-    dueDate: null
+    dueDate: null,
   },
   {
     id: 2,
-    title: "Complete practice project",
+    title: 'Complete practice project',
     completed: true,
-    priority: "Medium",
+    priority: 'Medium',
     createdAt: new Date(Date.now() - 86400000).toISOString(),
-    dueDate: null
-  }
+    dueDate: null,
+  },
 ];
 
 function App() {
@@ -47,9 +47,9 @@ function App() {
           id: Date.now(),
           completed: false,
           createdAt: new Date().toISOString(),
-          dueDate: null
+          dueDate: null,
         };
-        setTodos(prev => [...prev, newTodo]);
+        setTodos((prev) => [...prev, newTodo]);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -57,49 +57,59 @@ function App() {
   }, []);
 
   const addTodo = (todo) => {
-    setTodos([...todos, {
-      ...todo,
-      id: Date.now(),
-      completed: false,
-      createdAt: new Date().toISOString(),
-      dueDate: todo.dueDate || null
-    }]);
+    setTodos((prevTodos) => [
+      ...prevTodos,
+      {
+        ...todo,
+        id: Date.now(),
+        completed: false,
+        createdAt: new Date().toISOString(),
+        dueDate: todo.dueDate || null,
+      },
+    ]);
   };
 
   const toggleTodo = (id) => {
-    setTodos(todos.map(todo => 
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ));
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
   };
 
   const deleteTodo = (id) => {
-    setTodos(todos.filter(todo => todo.id !== id));
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
   const editTodo = (id, updatedFields) => {
-    setTodos(todos.map(todo => 
-      todo.id === id ? { ...todo, ...updatedFields } : todo
-    ));
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === id ? { ...todo, ...updatedFields } : todo
+      )
+    );
   };
 
   const getFilteredTodos = () => {
-    return todos
-      .filter(todo => {
+    const filtered = todos
+      .filter((todo) => {
         if (filter === 'active') return !todo.completed;
         if (filter === 'completed') return todo.completed;
         return true;
       })
-      .filter(todo => {
+      .filter((todo) => {
         if (priorityFilter !== 'all') return todo.priority === priorityFilter;
         return true;
-      })
-      .sort((a, b) => {
-        if (sortBy === 'priority') {
-          const p = { Low: 1, Medium: 2, High: 3 };
-          return p[b.priority] - p[a.priority];
-        }
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       });
+
+    return filtered.sort((a, b) => {
+      if (sortBy === 'priority') {
+        const p = { Low: 1, Medium: 2, High: 3 };
+        return p[b.priority] - p[a.priority];
+      } else if (sortBy === 'createdAt') {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      }
+      return 0;
+    });
   };
 
   return (
@@ -113,7 +123,10 @@ function App() {
           <option value="completed">Completed</option>
         </select>
 
-        <select value={priorityFilter} onChange={(e) => setPriorityFilter(e.target.value)}>
+        <select
+          value={priorityFilter}
+          onChange={(e) => setPriorityFilter(e.target.value)}
+        >
           <option value="all">All Priorities</option>
           <option value="Low">Low</option>
           <option value="Medium">Medium</option>
@@ -121,19 +134,19 @@ function App() {
         </select>
 
         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-          <option value="createdAt">Sort by Date</option>
+          <option value="createdAt">Sort by Creation Date</option>
           <option value="priority">Sort by Priority</option>
         </select>
       </div>
 
       <TodoStats todos={todos} />
       <TodoForm addTodo={addTodo} />
-      <TodoList 
-        todos={getFilteredTodos()} 
-        toggleTodo={toggleTodo} 
-        deleteTodo={deleteTodo} 
+      <TodoList
+        todos={getFilteredTodos()}
+        toggleTodo={toggleTodo}
+        deleteTodo={deleteTodo}
         editTodo={editTodo}
-        showCreatedAt={true} 
+        showCreatedAt={true}
       />
     </div>
   );
