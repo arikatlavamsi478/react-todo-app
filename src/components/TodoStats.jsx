@@ -1,30 +1,36 @@
-const TodoStats = ({ todos }) => {
-    const total = todos.length;
-    const completed = todos.filter((t) => t.completed).length;
-    const active = total - completed;
-  
-    const highestPriorityTodo = todos
-      .filter((t) => !t.completed)
-      .sort((a, b) => {
-        const map = { High: 3, Medium: 2, Low: 1 };
-        return map[b.priority] - map[a.priority];
-      })[0];
-  
-    return (
-      <div className="todo-stats">
-        <p>
-          <strong>Total:</strong> {total} | <strong>Active:</strong> {active} |{' '}
-          <strong>Completed:</strong> {completed}
-        </p>
-        {highestPriorityTodo && (
-          <p>
-            <strong>Top Priority Todo:</strong> {highestPriorityTodo.title} ({
-              highestPriorityTodo.priority
-            })
-          </p>
-        )}
+import React from 'react';
+
+function TodoStats({ todos }) {
+  const total = todos.length;
+  const active = todos.filter(todo => !todo.completed).length;
+  const completed = todos.filter(todo => todo.completed).length;
+
+  const priorityOrder = { High: 3, Medium: 2, Low: 1 };
+  const topPriorityTodo = todos
+    .filter(todo => !todo.completed)
+    .sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority])[0];
+
+  return (
+    <div style={{
+      textAlign: 'center',
+      margin: '20px 0',
+      fontSize: '1rem',
+      color: '#333',
+      minHeight: '100px',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      gap: '8px',
+      fontWeight: '500',
+    }}>
+      <div>Total: {total}</div>
+      <div>Active: {active}</div>
+      <div>Completed: {completed}</div>
+      <div>
+        Top Priority Task: {topPriorityTodo ? topPriorityTodo.title : 'N/A'}
       </div>
-    );
-  };
-  
-  export default TodoStats;
+    </div>
+  );
+}
+
+export default TodoStats;

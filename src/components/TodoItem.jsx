@@ -1,32 +1,24 @@
-const priorityColors = {
-    High: 'red',
-    Medium: 'orange',
-    Low: 'green'
-  };
-  
-  const TodoItem = ({ todo, toggleTodo, deleteTodo }) => {
-    return (
-      <li className="todo-item">
-        <input
-          type="checkbox"
-          checked={todo.completed}
-          onChange={() => toggleTodo(todo.id)}
-        />
-        <span
-          className={`title ${todo.completed ? 'completed' : ''}`}
-          style={{
-            borderLeft: `4px solid ${priorityColors[todo.priority]}`,
-            paddingLeft: '8px'
-          }}
-        >
-          {todo.title}
-        </span>
-        <span className="priority-tag" style={{ color: priorityColors[todo.priority] }}>
-          {todo.priority}
-        </span>
-        <button onClick={() => deleteTodo(todo.id)}>❌</button>
-      </li>
-    );
-  };
+const TodoItem = ({ todo, toggleTodo, deleteTodo }) => {
+    const priorityClass = {
+        Low: "priority-low",
+        Medium: "priority-medium",
+        High: "priority-high"
+      }[todo.priority] || "priority-low";
+
+return (
+    <li className={`todo-item ${todo.completed ? "completed" : ""}`}>
+      <input 
+        type="checkbox" 
+        checked={todo.completed} 
+        onChange={() => toggleTodo(todo.id)} 
+      />
+      <span className={`priority-indicator ${priorityClass}`}></span>
+      <span className="todo-title">{todo.title}</span>
+      <div className="todo-actions">
+        <button onClick={() => deleteTodo(todo.id)} aria-label="Delete todo">🗑️</button>
+      </div>
+    </li>
+  );
+};
   
   export default TodoItem;
