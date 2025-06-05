@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './TodoForm.css';
 
 /**
  * TodoForm component allows user to input a new todo item with:
@@ -37,21 +38,17 @@ function TodoForm({ addTodo }) {
       createdAt: new Date().toISOString()
     });
 
-    // Reset form state
     setTitle('');
     setPriority('Medium');
     setDueDate('');
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: '10px',
-      marginTop: '20px',
-      flexWrap: 'wrap',
-    }} aria-label="todo form">
+    <form
+      onSubmit={handleSubmit}
+      className="todo-form"
+      aria-label="todo form"
+    >
       <input
         type="text"
         placeholder="Add todo..."
@@ -59,27 +56,13 @@ function TodoForm({ addTodo }) {
         onChange={e => setTitle(e.target.value)}
         aria-label="title"
         required
-        style={{
-          padding: '8px 12px',
-          fontSize: '1rem',
-          borderRadius: '4px',
-          border: '1px solid #ccc',
-          width: '200px',
-          minWidth: '150px',
-        }}
+        className="todo-input"
       />
       <select
         value={priority}
         onChange={e => setPriority(e.target.value)}
         aria-label="priority"
-        style={{
-          padding: '8px 12px',
-          fontSize: '1rem',
-          borderRadius: '4px',
-          border: '1px solid #ccc',
-          backgroundColor: 'white',
-          cursor: 'pointer',
-        }}
+        className="todo-select"
       >
         <option value="Low">Low</option>
         <option value="Medium">Medium</option>
@@ -90,28 +73,12 @@ function TodoForm({ addTodo }) {
         value={dueDate}
         onChange={e => setDueDate(e.target.value)}
         aria-label="due date"
-        style={{
-          padding: '8px 12px',
-          fontSize: '1rem',
-          borderRadius: '4px',
-          border: '1px solid #ccc'
-        }}
+        className="todo-date"
       />
       <button
         type="submit"
         aria-label="add todo"
-        style={{
-          padding: '8px 20px',
-          fontSize: '1rem',
-          borderRadius: '4px',
-          border: 'none',
-          backgroundColor: '#007bff',
-          color: 'white',
-          cursor: 'pointer',
-          transition: 'background-color 0.3s ease',
-        }}
-        onMouseEnter={e => e.currentTarget.style.backgroundColor = '#0056b3'}
-        onMouseLeave={e => e.currentTarget.style.backgroundColor = '#007bff'}
+        className="todo-button"
       >
         Add
       </button>

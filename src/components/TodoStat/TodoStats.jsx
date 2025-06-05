@@ -1,4 +1,5 @@
 import React from 'react';
+import './TodoStats.css';
 
 /**
  * TodoStats displays summary statistics of todos.
@@ -20,20 +21,7 @@ function TodoStats({ todos }) {
     .sort((a, b) => priorityOrder[b.priority] - priorityOrder[a.priority])[0];
 
   return (
-    <div
-      style={{
-        textAlign: 'center',
-        margin: '20px 0',
-        fontSize: '1rem',
-        color: '#333',
-        minHeight: '100px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        gap: '8px',
-        fontWeight: '500',
-      }}
-    >
+    <div className="todo-stats">
       <div>Total: {total}</div>
       <div>Active: {active}</div>
       <div>Completed: {completed}</div>

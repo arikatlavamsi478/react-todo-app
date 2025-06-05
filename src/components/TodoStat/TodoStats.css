@@ -1,0 +1,17 @@
+.todo-stats {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 1rem;
+    color: #333;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 500;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    padding: 16px;
+  }
+  

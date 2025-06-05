@@ -1,0 +1,55 @@
+.todo-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  
+  .todo-input,
+  .todo-select,
+  .todo-date {
+    padding: 8px 12px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .todo-input {
+    width: 200px;
+    min-width: 150px;
+  }
+  
+  .todo-select {
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .todo-button {
+    padding: 8px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .todo-button:hover,
+  .todo-button:focus {
+    background-color: #0056b3;
+  }
+  
+  .todo-edit-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  .todo-button.cancel {
+    background: #ccc;
+    color: #333;
+  }
+  

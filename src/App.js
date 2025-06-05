@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import TodoForm from './components/TodoForm';
-import TodoList from './components/TodoList';
-import TodoStats from './components/TodoStats';
+import TodoForm from './components/TodoForm/TodoForm';
+import TodoList from './components/TodoList/TodoList';
+import TodoStats from './components/TodoStat/TodoStats';
 
 const initialTodos = [
   {

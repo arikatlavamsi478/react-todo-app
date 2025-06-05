@@ -1,5 +1,6 @@
 import React from 'react';
-import TodoItem from './TodoItem';
+import TodoItem from '../TodoItem/TodoItem';
+import './TodoList.css';
 
 /**
  * TodoList component renders a list of todos using TodoItem.
@@ -11,17 +12,13 @@ import TodoItem from './TodoItem';
  * - showCreatedAt: boolean to show creation date (currently unused)
  */
 
-function TodoList({ todos, toggleTodo, deleteTodo, editTodo, showCreatedAt }) {
+function TodoList({ todos, toggleTodo, deleteTodo, editTodo }) {
   if (todos.length === 0) {
-    return (
-      <p style={{ textAlign: 'center', marginTop: '20px' }}>
-        No todos available
-      </p>
-    );
+    return <p className="todo-list-empty">No todos available</p>;
   }
 
   return (
-    <ul className="todo-list" style={{ listStyleType: 'none', padding: 0 }}>
+    <ul className="todo-list">
       {todos.map((todo) => (
         <TodoItem
           key={todo.id}
@@ -29,7 +26,6 @@ function TodoList({ todos, toggleTodo, deleteTodo, editTodo, showCreatedAt }) {
           toggleTodo={toggleTodo}
           deleteTodo={deleteTodo}
           editTodo={editTodo}
-          showCreatedAt={showCreatedAt}
         />
       ))}
     </ul>
@@ -37,3 +33,4 @@ function TodoList({ todos, toggleTodo, deleteTodo, editTodo, showCreatedAt }) {
 }
 
 export default TodoList;
+
