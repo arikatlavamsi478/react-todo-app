@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 
-// Initial todos
 const initialTodos = [
   {
     id: 1,
@@ -21,7 +20,7 @@ const initialTodos = [
 ];
  
 export function useTodos() {
-  // State
+  
   const [todos, setTodos] = useState(() => {
     const saved = localStorage.getItem('todos');
     return saved ? JSON.parse(saved) : initialTodos;
@@ -30,12 +29,10 @@ export function useTodos() {
   const [priorityFilter, setPriorityFilter] = useState('all');
   const [sortBy, setSortBy] = useState('createdAt');
 
-  // Persist todos to localStorage
   useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
 
-  // Keyboard shortcut: Ctrl/Cmd + N
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
@@ -55,7 +52,6 @@ export function useTodos() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // CRUD operations
   const addTodo = (todo) => {
     setTodos((prevTodos) => [
       ...prevTodos,
@@ -89,7 +85,6 @@ export function useTodos() {
     );
   };
 
-  // Filtering and sorting
   const getFilteredTodos = () => {
     const filtered = todos
       .filter((todo) => {
@@ -113,7 +108,6 @@ export function useTodos() {
     });
   };
 
-  // Return everything needed in App
   return {
     todos,
     addTodo,
@@ -129,3 +123,4 @@ export function useTodos() {
     getFilteredTodos,
   };
 }
+
