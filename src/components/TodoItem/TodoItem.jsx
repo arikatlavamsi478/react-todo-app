@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
 import './TodoItem.css';
 
-/**
- * TodoItem component represents a single todo entry in the list.
- * Props:
- * - todo: the todo object { id, title, completed, priority, dueDate }
- * - toggleTodo: function to toggle completion status
- * - deleteTodo: function to delete this todo
- */
-
 const PRIORITY_CLASSES = {
   Low: "priority-low",
   Medium: "priority-medium",
@@ -29,12 +21,14 @@ const TodoItem = ({ todo, toggleTodo, deleteTodo, editTodo }) => {
   const handleEditSubmit = (e) => {
     e.preventDefault();
     if (editTitle.trim() === '') return;
-    editTodo({
-      ...todo,
-      title: editTitle.trim(),
-      priority: editPriority,
-      dueDate: editDueDate ? new Date(editDueDate).toISOString() : null
-    });
+    editTodo(
+      todo.id,
+      {
+        title: editTitle.trim(),
+        priority: editPriority,
+        dueDate: editDueDate ? new Date(editDueDate).toISOString() : null
+      }
+    );
     setIsEditing(false);
   };
 

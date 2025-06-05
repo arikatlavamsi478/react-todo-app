@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
-import './App.css';
-import TodoForm from './components/TodoForm/TodoForm';
-import TodoList from './components/TodoList/TodoList';
-import TodoStats from './components/TodoStat/TodoStats';
 
+// Initial todos
 const initialTodos = [
   {
     id: 1,
@@ -22,21 +19,23 @@ const initialTodos = [
     dueDate: null,
   },
 ];
-
-function App() {
+ 
+export function useTodos() {
+  // State
   const [todos, setTodos] = useState(() => {
     const saved = localStorage.getItem('todos');
     return saved ? JSON.parse(saved) : initialTodos;
   });
-
   const [filter, setFilter] = useState('all');
   const [priorityFilter, setPriorityFilter] = useState('all');
   const [sortBy, setSortBy] = useState('createdAt');
 
+  // Persist todos to localStorage
   useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
 
+  // Keyboard shortcut: Ctrl/Cmd + N
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
@@ -56,6 +55,7 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // CRUD operations
   const addTodo = (todo) => {
     setTodos((prevTodos) => [
       ...prevTodos,
@@ -89,6 +89,7 @@ function App() {
     );
   };
 
+  // Filtering and sorting
   const getFilteredTodos = () => {
     const filtered = todos
       .filter((todo) => {
@@ -112,44 +113,19 @@ function App() {
     });
   };
 
-  return (
-    <div className="App">
-      <h1>Todo App</h1>
-
-      <div className="controls">
-        <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-          <option value="all">All</option>
-          <option value="active">Active</option>
-          <option value="completed">Completed</option>
-        </select>
-
-        <select
-          value={priorityFilter}
-          onChange={(e) => setPriorityFilter(e.target.value)}
-        >
-          <option value="all">All Priorities</option>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
-
-        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-          <option value="createdAt">Sort by Creation Date</option>
-          <option value="priority">Sort by Priority</option>
-        </select>
-      </div>
-
-      <TodoStats todos={todos} />
-      <TodoForm addTodo={addTodo} />
-      <TodoList
-        todos={getFilteredTodos()}
-        toggleTodo={toggleTodo}
-        deleteTodo={deleteTodo}
-        editTodo={editTodo}
-        showCreatedAt={true}
-      />
-    </div>
-  );
+  // Return everything needed in App
+  return {
+    todos,
+    addTodo,
+    toggleTodo,
+    deleteTodo,
+    editTodo,
+    filter,
+    setFilter,
+    priorityFilter,
+    setPriorityFilter,
+    sortBy,
+    setSortBy,
+    getFilteredTodos,
+  };
 }
-
-export default App;
