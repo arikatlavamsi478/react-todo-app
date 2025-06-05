@@ -1,4 +1,7 @@
-<img width="1440" alt="Screenshot 2025-06-04 at 7 37 42 PM" src="https://github.com/user-attachments/assets/6470e5d8-a636-47dd-a52d-4cc88106aa8f" />
+<img width="1440" alt="Screenshot 2025-06-04 at 7 42 22 PM" src="https://github.com/user-attachments/assets/e8204b5b-b3e5-4729-b318-e96844b224ec" />
+
+
+
 # React Todo App
 
 A todo app with filtering, sorting, statistics, and local storage support. Built with React.
